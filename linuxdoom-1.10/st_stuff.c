@@ -516,7 +516,7 @@ boolean ST_Responder(event_t *ev)
     // if a user keypress...
     else if (ev->type == ev_keydown)
     {
-        if (!netgame)
+        if (!netgame && !deathmatch && gameskill != sk_nightmare) // JulioMOD
         {
             // b. - enabled for more debug fun.
             // if (gameskill != sk_nightmare) {

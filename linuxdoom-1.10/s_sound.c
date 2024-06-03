@@ -254,7 +254,7 @@ void S_StartSoundAtVolume(void *origin_p, int sfx_id, int volume)
     }
     else
     {
-        pitch = NORM_PITCH;
+        pitch    = NORM_PITCH;
         priority = NORM_PRIORITY;
     }
 
@@ -320,20 +320,21 @@ void S_StartSoundAtVolume(void *origin_p, int sfx_id, int volume)
     if (sfx->lumpnum < 0)
         sfx->lumpnum = I_GetSfxLumpNum(sfx);
 
-#ifndef SNDSRV
-    // cache data if necessary
-    if (!sfx->data)
-    {
-        fprintf(stderr,
-                "S_StartSoundAtVolume: 16bit and not pre-cached - wtf?\n");
+//  JulioMOD - Stop print error msg
+// #ifndef SNDSRV
+//     // cache data if necessary
+//     if (!sfx->data)
+//     {
+//         fprintf(stderr,
+//                 "S_StartSoundAtVolume: 16bit and not pre-cached - wtf?\n");
 
-        // DOS remains, 8bit handling
-        // sfx->data = (void *) W_CacheLumpNum(sfx->lumpnum, PU_MUSIC);
-        // fprintf( stderr,
-        //	     "S_StartSoundAtVolume: loading %d (lump %d) : 0x%x\n",
-        //       sfx_id, sfx->lumpnum, (int)sfx->data );
-    }
-#endif
+//         // DOS remains, 8bit handling
+//         sfx->data = (void *) W_CacheLumpNum(sfx->lumpnum, PU_MUSIC);
+//         fprintf( stderr,
+//         	     "S_StartSoundAtVolume: loading %d (lump %d) : 0x%lx\n",
+//               sfx_id, sfx->lumpnum, (long int)sfx->data );
+//     }
+// #endif
 
     // increase the usefulness
     if (sfx->usefulness++ < 0)

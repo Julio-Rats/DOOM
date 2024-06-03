@@ -40,7 +40,7 @@ enum
 //  to handle IWAD dependend animations etc.
 typedef enum
 {
-    shareware = 0, // DOOM 1 shareware, E1, M9
+    shareware,     // DOOM 1 shareware, E1, M9
     registered,    // DOOM 1 registered, E3, M27
     commercial,    // DOOM 2 retail, E1 M34
     // DOOM 2 german edition not handled
@@ -52,7 +52,7 @@ typedef enum
 // Mission packs - might be useful for TC stuff?
 typedef enum
 {
-    doom = 0,  // DOOM 1
+    doom,      // DOOM 1
     ultimate,  // DOOM Ultimate // JulioMOD
     doom2,     // DOOM 2
     pack_tnt,  // TNT mission pack

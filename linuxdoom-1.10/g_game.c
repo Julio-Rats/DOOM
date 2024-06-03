@@ -112,8 +112,8 @@ boolean netgame;    // only true if packets are broadcast
 boolean playeringame[MAXPLAYERS];
 player_t players[MAXPLAYERS];
 
-int consoleplayer; // player taking events and displaying
-int displayplayer; // view being displayed
+int consoleplayer;  // player taking events and displaying
+int displayplayer;  // view being displayed
 int gametic;
 int levelstarttic;                       // gametic at level start
 int totalkills, totalitems, totalsecret; // for intermission
@@ -129,7 +129,7 @@ boolean singledemo; // quit after playing a demo from cmdline
 
 boolean precache = true; // if true, load all graphics at start
 
-wbstartstruct_t wminfo; // parms for world map / intermission
+wbstartstruct_t wminfo;  // parms for world map / intermission
 
 short consistancy[MAXPLAYERS][BACKUPTICS];
 
@@ -1337,7 +1337,7 @@ void G_InitNew(skill_t skill, int episode, int map)
         you will accumulate a reduction or addition of ticks
         
     */
-    // FIXME
+    // // FIXME
     if (fastparm || (skill == sk_nightmare && gameskill != sk_nightmare))
     {
         for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
@@ -1354,12 +1354,14 @@ void G_InitNew(skill_t skill, int episode, int map)
         mobjinfo[MT_HEADSHOT].speed     = 10 * FRACUNIT;
         mobjinfo[MT_TROOPSHOT].speed    = 10 * FRACUNIT;
     }
-    // END FIX
+    // // END FIXME
     
     // // JulioMOD Fixed
-    // static byte lastSkill = 0;
-    // if (lastSkill != (skill == sk_nightmare || fastparm))
-    //     if (lastSkill = (skill == sk_nightmare || fastparm))
+    // static boolean lastSkill = 0;
+    // boolean aggressive = skill == sk_nightmare || fastparm;
+    // if (lastSkill != aggressive)
+    // {
+    //     if (lastSkill = aggressive)
     //     {
     //         for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
     //             if (states[i].tics != 1)
@@ -1371,12 +1373,14 @@ void G_InitNew(skill_t skill, int episode, int map)
     //     else
     //     {
     //         for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-    //             if (states[i].tics != LONG_MIN)
+    //             if (!(states[i].tics & MINLONG))
     //                 states[i].tics <<= 1;
     //         mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
     //         mobjinfo[MT_HEADSHOT].speed    = 10 * FRACUNIT;
     //         mobjinfo[MT_TROOPSHOT].speed   = 10 * FRACUNIT;
     //     }
+    // }
+    // end Fixed
 
     // force players to be initialized upon first level load
     for (i = 0; i < MAXPLAYERS; i++)

@@ -106,6 +106,7 @@ void I_Quit(void)
     I_ShutdownMusic();
     M_SaveDefaults();
     I_ShutdownGraphics();
+    printf("I_Quit: Finished Successfully\n");
     exit(0);
 }
 

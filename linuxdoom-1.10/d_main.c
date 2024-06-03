@@ -420,9 +420,9 @@ void D_DoAdvanceDemo(void)
 {
     players[consoleplayer].playerstate = PST_LIVE; // not reborn
     advancedemo = false;
-    usergame = false; // no save / end game here
-    paused = false;
-    gameaction = ga_nothing;
+    usergame    = false; // no save / end game here
+    paused      = false;
+    gameaction  = ga_nothing;
 
     if (gamemode == retail)
         demosequence = (demosequence + 1) % 7;
@@ -436,8 +436,8 @@ void D_DoAdvanceDemo(void)
             pagetic = 35 * 11;
         else
             pagetic = 170;
-        gamestate = GS_DEMOSCREEN;
-        pagename = "TITLEPIC";
+        gamestate   = GS_DEMOSCREEN;
+        pagename    = "TITLEPIC";
         if (gamemode == commercial)
             S_StartMusic(mus_dm2ttl);
         else
@@ -447,9 +447,9 @@ void D_DoAdvanceDemo(void)
         G_DeferedPlayDemo("demo1");
         break;
     case 2:
-        pagetic = 200;
+        pagetic   = 200;
         gamestate = GS_DEMOSCREEN;
-        pagename = "CREDIT";
+        pagename  = "CREDIT";
         break;
     case 3:
         G_DeferedPlayDemo("demo2");
@@ -458,22 +458,14 @@ void D_DoAdvanceDemo(void)
         gamestate = GS_DEMOSCREEN;
         if (gamemode == commercial)
         {
-            pagetic = 35 * 11;
+            pagetic  = 35 * 11;
             pagename = "TITLEPIC";
             S_StartMusic(mus_dm2ttl);
         }
         else
         {
-            pagetic = 200;
-
-            if (gamemode == retail)
-                pagename = "CREDIT";
-            else
-            {
-                // JulioMOD Demo error version
-                pagename = (g_demoAvailable) ? "HELP2" : "TITLEPIC";
-                pagetic = (gamemode == commercial) ? 35 * 11 : 170;
-            }
+            pagetic  = 200;
+            pagename = "HELP1"; // JulioMOD HELP2 no work, why?!?
         }
         break;
     case 5:
@@ -774,11 +766,10 @@ void D_DoomMain(void)
     char file[256];
 
     FindResponseFile();
-
     // JulioMOD
-    printf("\n\n===========================================================================\n"
-             "                     Engine modified by JulioRats\n"
-            "===========================================================================\n\n");
+    printf("\n===========================================================================\n"
+           "                     Engine modified by JulioRats\n"
+           "===========================================================================\n\n");
     IdentifyVersion();
     setbuf(stdout, NULL);
     modifiedgame = false;
@@ -881,8 +872,15 @@ void D_DoomMain(void)
     if (M_CheckParm("-cdrom"))
     {
         printf(D_CDROM);
-        mkdir("c:\\doomdata", 0);
-        strcpy(basedefault, "c:/doomdata/default.cfg");
+        // JulioMOD OS Directory System
+        #ifdef __linux__ 
+            mkdir("~/doomdata", 0);
+            strcpy(basedefault, "~/doomdata/default.cfg");
+        #elif _WIN32
+            mkdir("c:\\doomdata", 0);
+            strcpy(basedefault, "c:/doomdata/default.cfg");
+        #endif
+        
     }
 
     // turbo option
@@ -903,8 +901,8 @@ void D_DoomMain(void)
         printf("turbo scale: %i%%\n", scale);
         forwardmove[0] = forwardmove[0] * scale / 100;
         forwardmove[1] = forwardmove[1] * scale / 100;
-        sidemove[0] = sidemove[0] * scale / 100;
-        sidemove[1] = sidemove[1] * scale / 100;
+        sidemove[0]    = sidemove[0]    * scale / 100;
+        sidemove[1]    = sidemove[1]    * scale / 100;
     }
 
     // add any files specified on the command line with -file wadfile
@@ -960,23 +958,23 @@ void D_DoomMain(void)
     }
 
     // get skill / episode / map from parms
-    startskill = sk_medium;
+    startskill   = sk_medium;
     startepisode = 1;
-    startmap = 1;
-    autostart = false;
+    startmap     = 1;
+    autostart    = false;
 
     p = M_CheckParm("-skill");
     if (p && p < myargc - 1)
     {
         startskill = myargv[p + 1][0] - '1';
-        autostart = true;
+        autostart  = true;
     }
 
     p = M_CheckParm("-episode");
     if (p && p < myargc - 1)
     {
         startepisode = myargv[p + 1][0] - '0';
-        startmap = 1;
+        startmap  = 1;
         autostart = true;
     }
 
@@ -1114,7 +1112,7 @@ void D_DoomMain(void)
         // for statistics driver
         extern void *statcopy;
 
-        statcopy = (void *)atoi(myargv[p + 1]);
+        statcopy = (void *)(long)atoi(myargv[p + 1]);
         printf("External statistics registered.\n");
     }
 

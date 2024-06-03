@@ -90,7 +90,6 @@ void G_DoSaveGame(void);
 
 gameaction_t gameaction;
 gamestate_t  gamestate;
-boolean      g_demoAvailable = true; // JulioMOD
 skill_t      gameskill;
 boolean      respawnmonsters;
 int          gameepisode;
@@ -1525,7 +1524,6 @@ void G_DoPlayDemo(void)
     {
         fprintf(stderr, "Demo is from a different game version!\n");
         gameaction = ga_nothing;
-        g_demoAvailable = false; // JulioMOD
         return;
     }
 

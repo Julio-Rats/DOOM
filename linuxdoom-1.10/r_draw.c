@@ -42,9 +42,12 @@ static const char
 // State.
 #include "doomstat.h"
 
+// JulioMOD
 // ?
-#define MAXWIDTH 1120
-#define MAXHEIGHT 832
+#define MAXWIDTH 1280
+#define MAXHEIGHT 800
+// #define MAXWIDTH 1120
+// #define MAXHEIGHT 832
 
 // status bar height at bottom of screen
 #define SBARHEIGHT 32

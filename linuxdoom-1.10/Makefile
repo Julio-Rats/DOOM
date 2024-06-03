@@ -87,7 +87,7 @@ all:	$(B)/$(doom)
 
 clean:
 	rm -f *.o *~ *.flc
-	rm -f $(O)/*
+	rm -f $(O)/*.o
 	rm -f $(B)/$(doom)
 
 $(B)/$(doom):	$(OBJS)	$(O)/i_main.o

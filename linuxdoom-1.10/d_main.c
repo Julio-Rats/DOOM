@@ -110,9 +110,9 @@ FILE *debugfile;
 
 boolean advancedemo;
 
-char wadfile[1024];     // primary wad file
-char mapdir[1024];      // directory of development maps
-char basedefault[1024]; // default file
+char wadfile[256];     // primary wad file
+char mapdir[256];      // directory of development maps
+char basedefault[256]; // default file
 
 void D_CheckNetGame(void);
 void D_ProcessEvents(void);
@@ -330,7 +330,7 @@ void D_DoomLoop(void)
 
     if (M_CheckParm("-debugfile"))
     {
-        char filename[20];
+        char filename[32];
         sprintf(filename, "debug%i.txt", consoleplayer);
         printf("debug output to: %s\n", filename);
         debugfile = fopen(filename, "w");
@@ -698,10 +698,10 @@ void FindResponseFile(void)
         if (myargv[i][0] == '@')
         {
             FILE *handle;
-            int size;
-            int k;
-            int index;
-            int indexinfile;
+            int   size;
+            int   k;
+            int   index;
+            int   indexinfile;
             char *infile;
             char *file;
             char *moreargs[20];
@@ -711,7 +711,7 @@ void FindResponseFile(void)
             handle = fopen(&myargv[i][1], "rb");
             if (!handle)
             {
-                printf("\nNo such response file!");
+                printf("\nNo such response file!\n");
                 exit(1);
             }
             printf("Found response file %s!\n", &myargv[i][1]);
@@ -727,7 +727,7 @@ void FindResponseFile(void)
                 moreargs[index++] = myargv[k];
 
             firstargv = myargv[0];
-            myargv = malloc(sizeof(char *) * MAXARGVS);
+            myargv    = malloc(sizeof(char *) * MAXARGVS);
             memset(myargv, 0, sizeof(char *) * MAXARGVS);
             myargv[0] = firstargv;
 
@@ -871,16 +871,21 @@ void D_DoomMain(void)
 
     if (M_CheckParm("-cdrom"))
     {
-        printf(D_CDROM);
         // JulioMOD OS Directory System
-        #ifdef __linux__ 
-            mkdir("~/doomdata", 0);
-            strcpy(basedefault, "~/doomdata/default.cfg");
+        #ifdef NORMALUNIX
+            char path[128];
+
+            printf(U_CDROM);
+            sprintf(path, "%s/doomdata", getenv("HOME"));
+            mkdir(path, 0777);
+            sprintf(basedefault, "%s/default.cfg", path);
+
         #elif _WIN32
+            printf(D_CDROM);
             mkdir("c:\\doomdata", 0);
             strcpy(basedefault, "c:/doomdata/default.cfg");
+
         #endif
-        
     }
 
     // turbo option
@@ -974,19 +979,26 @@ void D_DoomMain(void)
     if (p && p < myargc - 1)
     {
         startepisode = myargv[p + 1][0] - '0';
-        startmap  = 1;
+        autostart    = true;
+    }
+
+    // JulioMOD
+    p = M_CheckParm("-map");
+    if (p && p < myargc - 1)
+    {
+        if (gamemode == commercial)
+            startmap = atoi(myargv[p + 1]);
+        else
+            startmap = myargv[p + 1][0] - '0';
+
         autostart = true;
     }
 
     p = M_CheckParm("-timer");
     if (p && p < myargc - 1 && deathmatch)
     {
-        int time;
-        time = atoi(myargv[p + 1]);
-        printf("Levels will end after %d minute", time);
-        if (time > 1)
-            printf("s");
-        printf(".\n");
+        int time = atoi(myargv[p + 1]);
+        printf("Levels will end after %d minute%s\n", time, time > 1 ? "s" : "");
     }
 
     p = M_CheckParm("-avg");
@@ -994,14 +1006,14 @@ void D_DoomMain(void)
         printf("Austin Virtual Gaming: Levels will end after 20 minutes\n");
 
     p = M_CheckParm("-warp");
-    if ((p && p < myargc - 1) && (gamemode != commercial && p < myargc - 2)) // JulioMOD: Check 2 for gamemod diff commercial
+    if (p && ((gamemode == commercial && p < myargc - 1) || (gamemode != commercial && p < myargc - 2))) // JulioMOD: Check 2 for gamemod diff commercial
     {
         if (gamemode == commercial)
             startmap = atoi(myargv[p + 1]);
         else
         {
             startepisode = myargv[p + 1][0] - '0';
-            startmap = myargv[p + 2][0] - '0';
+            startmap     = myargv[p + 2][0] - '0';
         }
         autostart = true;
     }

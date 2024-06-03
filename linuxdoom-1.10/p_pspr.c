@@ -672,16 +672,18 @@ void A_BFGSpray(mobj_t *mo)
     int i;
     int j;
     int damage;
-    angle_t an;
+    // JulioMOD
+    angle_t offset = ANG90 / 40;
+    angle_t anAtck = mo->angle - ANG45;
 
     // offset angles from its attack angle
-    for (i = 0; i < 40; i++)
+    for (i = 0; i <= 40; i++)
     {
-        an = mo->angle - ANG90 / 2 + ANG90 / 40 * i;
-
         // mo->target is the originator (player)
         //  of the missile
-        P_AimLineAttack(mo->target, an, 16 * 64 * FRACUNIT);
+        P_AimLineAttack(mo->target, anAtck, 16 * 64 * FRACUNIT);
+
+        anAtck += offset;
 
         if (!linetarget)
             continue;

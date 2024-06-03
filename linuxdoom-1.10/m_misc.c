@@ -195,16 +195,16 @@ extern int mb_used;
 #endif
 
 #ifdef LINUX
-char *mousetype;
-char *mousedev;
+char *mousedev  = "mousedev";
+char *mousetype = "mousetype";
 #endif
 
 extern char *chat_macros[];
 
 typedef struct
 {
-    char    *name;
-    int     *location;
+    char     *name;
+    int      *location;
     intptr_t defaultvalue;
     int      scantranslate; // PC scan code hack
     int      untranslated;  // lousy hack
@@ -238,8 +238,9 @@ default_t defaults[] =
 
 #endif
 
-#ifdef LINUX
-        {"mousedev", (int *)&mousedev, (intptr_t) "/dev/ttyS0"},
+// JulioMOD Problemas here!
+#ifdef LINUX 
+        {"mousedev",  (int *)&mousedev, (intptr_t) "/dev/ttyS0"},
         {"mousetype", (int *)&mousetype, (intptr_t) "microsoft"},
 #endif
 
@@ -274,7 +275,7 @@ default_t defaults[] =
 
 };
 
-int numdefaults;
+int   numdefaults;
 char *defaultfile;
 
 //
@@ -282,8 +283,8 @@ char *defaultfile;
 //
 void M_SaveDefaults(void)
 {
-    int i;
-    int v;
+    int   i;
+    int   v;
     FILE *f;
 
     f = fopen(defaultfile, "w");
@@ -291,18 +292,14 @@ void M_SaveDefaults(void)
         return; // can't write the file, but don't complain
 
     for (i = 0; i < numdefaults; i++)
-    {
         if (defaults[i].defaultvalue > -0xfff && defaults[i].defaultvalue < 0xfff)
         {
             v = *defaults[i].location;
             fprintf(f, "%s\t\t%i\n", defaults[i].name, v);
         }
         else
-        {
             fprintf(f, "%s\t\t\"%s\"\n", defaults[i].name,
                     *(char **)(defaults[i].location));
-        }
-    }
 
     fclose(f);
 }
@@ -337,7 +334,7 @@ void M_LoadDefaults(void)
     }
     else
         defaultfile = basedefault;
-
+    
     // read the file in, overriding any set defaults
     f = fopen(defaultfile, "r");
     if (f)

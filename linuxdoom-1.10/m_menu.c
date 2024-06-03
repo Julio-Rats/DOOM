@@ -360,9 +360,16 @@ enum
     read1_end
 } read_e;
 
-menuitem_t ReadMenu1[] = {{1, "", M_ReadThis2, 0}};
+enum
+{
+    rdthsempty2,
+    read2_end
+} read_e2;
 
-menu_t ReadDef1 =
+menuitem_t ReadMenu1[] = {{1, "", M_FinishReadThis, 0}};
+menuitem_t ReadMenu2[] = {{1, "", M_ReadThis2, 0}};
+
+menu_t ReadDef2 =
     {
         read1_end,
         &MainDef,
@@ -372,15 +379,7 @@ menu_t ReadDef1 =
         0
     };
 
-enum
-{
-    rdthsempty2,
-    read2_end
-} read_e2;
-
-menuitem_t ReadMenu2[] = {{1, "", M_FinishReadThis, 0}};
-
-menu_t ReadDef2 =
+menu_t ReadDef1 =
     {
         read2_end,
         &ReadDef1,
@@ -389,6 +388,8 @@ menu_t ReadDef2 =
         330, 175,
         0
     };
+
+
 
 //
 // SOUND VOLUME MENU
@@ -1370,8 +1371,7 @@ boolean M_Responder(event_t *ev)
     // Take care of any messages that need input
     if (messageToPrint)
     {
-        if (messageNeedsInput == true &&
-            !(ch == ' ' || ch == 'n' || ch == 'y' || ch == KEY_ESCAPE))
+        if (messageNeedsInput == true && !(ch == ' ' || ch == 'n' || ch == 'y' || ch == KEY_ESCAPE))
             return false;
 
         menuactive = messageLastMenuActive;
@@ -1411,7 +1411,8 @@ boolean M_Responder(event_t *ev)
         case KEY_F1: // Help key
             M_StartControlPanel();
 
-            if (gamemode == retail)
+            // JulioMOD 
+            if (gamemode == commercial)     
                 currentMenu = &ReadDef2;
             else
                 currentMenu = &ReadDef1;

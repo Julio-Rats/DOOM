@@ -131,8 +131,8 @@ void Z_Free(void *ptr)
 
     // mark as free
     block->user = NULL;
-    block->tag = 0;
-    block->id = 0;
+    block->tag  = 0;
+    block->id   = 0;
 
     other = block->prev;
 
@@ -219,7 +219,7 @@ void *Z_Malloc(int size, int tag, void *user)
                 // the rover can be the base block
                 base = base->prev;
                 Z_Free((byte *)rover + sizeof(memblock_t));
-                base = base->next;
+                base  = base->next;
                 rover = base->next;
             }
         }
@@ -238,7 +238,7 @@ void *Z_Malloc(int size, int tag, void *user)
 
         // NULL indicates free block.
         newblock->user = NULL;
-        newblock->tag = 0;
+        newblock->tag  = 0;
         newblock->prev = base;
         newblock->next = base->next;
         newblock->next->prev = newblock;

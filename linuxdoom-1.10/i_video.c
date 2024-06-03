@@ -309,8 +309,7 @@ void I_GetEvent(void)
     }
 }
 
-Cursor
-createnullcursor(Display *display, Window root)
+Cursor createnullcursor(Display *display, Window root)
 {
     Pixmap cursormask;
     XGCValues xgc;
@@ -728,7 +727,7 @@ void I_InitGraphics(void)
     if (M_CheckParm("-4"))
         multiply = 4;
 
-    X_width = SCREENWIDTH * multiply;
+    X_width  = SCREENWIDTH  * multiply;
     X_height = SCREENHEIGHT * multiply;
 
     // check for command-line display name

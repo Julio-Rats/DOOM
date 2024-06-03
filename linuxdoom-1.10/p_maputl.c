@@ -605,8 +605,7 @@ boolean PIT_AddThingIntercepts(mobj_t *thing)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-boolean
-P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
     int count;
     fixed_t dist;
@@ -621,13 +620,11 @@ P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
     {
         dist = MAXINT;
         for (scan = intercepts; scan < intercept_p; scan++)
-        {
             if (scan->frac < dist)
             {
                 dist = scan->frac;
                 in = scan;
             }
-        }
 
         if (dist > maxfrac)
             return true; // checked everything in range

@@ -778,10 +778,6 @@ void D_DoomMain(void)
     respawnparm = M_CheckParm("-respawn");
     fastparm    = M_CheckParm("-fast");
     devparm     = M_CheckParm("-devparm");
-    if (M_CheckParm("-altdeath"))
-        deathmatch = 2;
-    else if (M_CheckParm("-deathmatch"))
-        deathmatch = 1;
 
     switch (gamemode)
     {
@@ -994,6 +990,17 @@ void D_DoomMain(void)
         autostart = true;
     }
 
+    if (M_CheckParm("-altdeath"))
+    {
+        deathmatch = 2;
+        autostart  = true;
+    }
+    else if (M_CheckParm("-deathmatch"))
+    {
+        deathmatch = 1;
+        autostart  = true;
+    }
+    
     p = M_CheckParm("-timer");
     if (p && p < myargc - 1 && deathmatch)
     {

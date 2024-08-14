@@ -168,7 +168,8 @@ void P_XYMovement(mobj_t *mo)
                 // explode a missile
                 if (ceilingline &&
                     ceilingline->backsector &&
-                    ceilingline->backsector->ceilingpic == skyflatnum)
+                    ceilingline->backsector->ceilingpic == skyflatnum &&
+                    ceilingline->backsector->ceilingheight < mo->z) // JulioMod (bug missile cross wall)
                 {
                     // Hack to prevent missiles exploding
                     // against the sky.

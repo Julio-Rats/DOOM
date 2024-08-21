@@ -57,7 +57,12 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     else if (cheat_xlate_table[(unsigned char)key] == *cht->p)
         cht->p++;
     else
+    {
+        // JulioMod   Check for start new correct sequence
         cht->p = cht->sequence;
+        if (cheat_xlate_table[(unsigned char)key] == *cht->p)
+            cht->p++;
+    }
 
     if (*cht->p == 1)
         cht->p++;

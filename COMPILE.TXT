@@ -7,4 +7,8 @@ libnsl-dev
 Current DOOM only supports 256-colors, use xserver-xephyr to run DOOM
 use multiple resolutions up to 3 times of 320x200.
 
+Xephyr :2 -ac -br -norest -screen 960x600x8 
+
 Use the -2 and -3 parameters in DOOM to use resolution multipliers
+
+./doom -3
